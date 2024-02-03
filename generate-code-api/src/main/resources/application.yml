@@ -1,0 +1,30 @@
+server:
+  port: 8088
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/zyzt?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8&autoReconnect=true&useSSL=false
+    username: root
+    password: admin
+
+generator:
+  packageName: com.lyz
+  entityPackageName: com.lyz
+  author: lyz
+  subModule: false
+  subModuleName: system
+  baseEntity: false
+  baseField: createUser,createTime,updateUser,updateTime
+  deleteColumn: delete_flg
+  deleteValue: 1
+  updateUserColumn: update_user
+  updateTimeColumn: update_time
+  callSuper: false
+  notUpdate: createUser,createTime
+  tablePrefix: true
+  tablePrefixs: sys_
+  columnPrefix: true
+  columnPrefixs: is_,not_
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

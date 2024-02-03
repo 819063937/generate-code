@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${generator.packageName}.mapper#if(${generator.subModule}).${generator.subModuleName}#end.${table.tableModuleName}Mapper">
+    <resultMap id="${table.tableModuleName2}Map" type="${generator.entityPackageName}.entity#if(${generator.subModule}).${generator.subModuleName}#end.${table.tableModuleName}Entity">
+#foreach($field in ${fields})
+    #if(${field.idFlg})
+        <id column="${field.columnName}" property="${field.propertyName}"></id>
+    #else
+        <result column="${field.columnName}" property="${field.propertyName}"></result>
+    #end
+#end
+    </resultMap>
+
+    <sql id="${table.tableModuleName2}Col">
+     #foreach($field in ${fields})
+        #if($foreach.count != ${fields.size()})
+            ${field.columnName},
+        #else
+            ${field.columnName}
+        #end
+     #end
+    </sql>
+
+    <select id="query${table.tableModuleName}Count" resultType="int">
+        select count(*) from ${table.tableName}
+        <include refid="${table.tableModuleName2}Where"/>
+    </select>
+
+    <select id="query${table.tableModuleName}List" resultMap="${table.tableModuleName2}Map">
+        select
+        <include refid="${table.tableModuleName2}Col"/>
+        from ${table.tableName}
+        <include refid="${table.tableModuleName2}Where"/>
+        <if test="startIndex != null and pageSize != null">
+            limit #{startIndex},#{pageSize}
+        </if>
+    </select>
+
+    <sql id="${table.tableModuleName2}Where">
+        <where>
+    #foreach($field in ${fields})
+        #if(${field.operateType} == 1 )
+            <if test="${field.propertyName} != null and ${field.propertyName} != '' ">
+                and ${field.columnName} = #{${field.propertyName}}
+            </if>
+        #end
+        #if(${field.operateType} == 2)
+            <if test="${field.propertyName} != null ">
+                and ${field.columnName} = #{${field.propertyName}}
+            </if>
+        #end
+        #if(${field.operateType} == 3)
+            <if test="${field.propertyName}Start != null and ${field.propertyName}Start != ''">
+                and ${field.columnName} &gt;= #{${field.propertyName}Start}
+            </if>
+            <if test="${field.propertyName}End != null and ${field.propertyName}End != ''">
+                and ${field.columnName} &lt;= #{${field.propertyName}End}
+            </if>
+        #end
+    #end
+        #if(${table.priColumn})
+            <if test="${table.priColumn.propertyName}s != null and ${table.priColumn.propertyName}s.size() > 0 ">
+                and ${table.priColumn.columnName} in
+                <foreach collection="${table.priColumn.propertyName}s" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+            </if>
+        #end
+        </where>
+    </sql>
+
+</mapper>

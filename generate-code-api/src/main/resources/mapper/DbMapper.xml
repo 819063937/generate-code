@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lyz.generate.mapper.DbMapper">
+    <resultMap id="tablesMap" type="com.lyz.generate.dto.TableDetailDto">
+        <result column="TABLE_CATALOG" property="tableCatalog"></result>
+        <result column="TABLE_SCHEMA" property="tableSchema"></result>
+        <result column="TABLE_NAME" property="tableName"></result>
+        <result column="TABLE_TYPE" property="tableType"></result>
+        <result column="ENGINE" property="engine"></result>
+        <result column="VERSION" property="version"></result>
+        <result column="ROW_FORMAT" property="rowFormat"></result>
+        <result column="TABLE_ROWS" property="tableRows"></result>
+        <result column="AVG_ROW_LENGTH" property="avgRowLength"></result>
+        <result column="DATA_LENGTH" property="dataLength"></result>
+        <result column="MAX_DATA_LENGTH" property="maxDataLength"></result>
+        <result column="INDEX_LENGTH" property="indexLength"></result>
+        <result column="DATA_FREE" property="dataFree"></result>
+        <result column="AUTO_INCREMENT" property="autoIncrement"></result>
+        <result column="CREATE_TIME" property="createTime"></result>
+        <result column="UPDATE_TIME" property="updateTime"></result>
+        <result column="CHECK_TIME" property="checkTime"></result>
+        <result column="TABLE_COLLATION" property="tableCollation"></result>
+        <result column="CHECKSUM" property="checksum"></result>
+        <result column="CREATE_OPTIONS" property="createOptions"></result>
+        <result column="TABLE_COMMENT" property="tableComment"></result>
+    </resultMap>
+
+    <sql id="tablesCol">
+            TABLE_CATALOG,
+            TABLE_SCHEMA,
+            TABLE_NAME,
+            TABLE_TYPE,
+            ENGINE,
+            VERSION,
+            ROW_FORMAT,
+            TABLE_ROWS,
+            AVG_ROW_LENGTH,
+            DATA_LENGTH,
+            MAX_DATA_LENGTH,
+            INDEX_LENGTH,
+            DATA_FREE,
+            AUTO_INCREMENT,
+            CREATE_TIME,
+            UPDATE_TIME,
+            CHECK_TIME,
+            TABLE_COLLATION,
+            CHECKSUM,
+            CREATE_OPTIONS,
+            TABLE_COMMENT
+    </sql>
+
+    <select id="queryDataBase" resultType="string">
+        select database()
+    </select>
+
+    <select id="queryTableDetail" resultMap="tablesMap">
+        select
+        <include refid="tablesCol"/>
+        from information_schema.tables a where a.table_schema = #{tableSchema} and a.table_name = #{tableName} limit 1
+    </select>
+
+    <select id="queryTableColumns" resultType="com.lyz.generate.dto.TableColumnDto">
+        select a.table_schema as tableSchema,
+        a.table_name as tableName,
+        a.column_name as columnName,
+        a.ordinal_position as ordinalPosition,
+        a.column_default as columnDefault,
+        a.is_nullable as isNullable,
+        a.data_type as dataType,
+        a.column_type as columnType,
+        a.column_key as columnKey,
+        a.extra as extra,
+        a.column_comment as columnComment from information_schema.columns a where a.table_schema = #{tableSchema}
+        and a.table_name = #{tableName} order by a.ordinal_position
+    </select>
+
+    <select id="queryTableList" resultMap="tablesMap">
+        select
+        <include refid="tablesCol"/>
+        from information_schema.tables a where a.table_schema = #{tableSchema}
+        <if test="tableName != null and tableName != '' ">
+            and table_name = #{tableName}
+        </if>
+        <if test="keyContent !=null and keyContent !=''">
+            and (table_name like CONCAT('%',#{keyContent},'%') or table_comment like CONCAT('%',#{keyContent},'%'))
+        </if>
+        <if test="startIndex != null and pageSize != null">
+            limit #{startIndex},#{pageSize}
+        </if>
+    </select>
+</mapper>

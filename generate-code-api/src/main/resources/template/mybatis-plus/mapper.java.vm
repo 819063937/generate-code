@@ -1,0 +1,34 @@
+package ${generator.packageName}.mapper#if(${generator.subModule}).${generator.subModuleName}#end;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import ${generator.entityPackageName}.entity#if(${generator.subModule}).${generator.subModuleName}#end.${table.tableModuleName}Entity;
+
+/**
+ * ${table.tableComment}mapper
+ *
+ * @author ${generator.author}
+ * @date ${date}
+ */
+@Repository
+public interface ${table.tableModuleName}Mapper extends BaseMapper<${table.tableModuleName}Entity> {
+    /**
+     * ${table.tableComment}查询数量
+     *
+     * @param map 具体的参数map
+     * @return Integer
+     */
+    Integer query${table.tableModuleName}Count(Map<String, Object> map);
+
+    /**
+     * ${table.tableComment}查询集合
+     *
+     * @param map 具体的参数map
+     * @return List
+     */
+    List<${table.tableModuleName}Entity> query${table.tableModuleName}List(Map<String, Object> map);
+}

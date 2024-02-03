@@ -1,0 +1,94 @@
+package ${generator.packageName}.mapper#if(${generator.subModule}).${generator.subModuleName}#end;
+
+#if(${table.classDateFlg})
+import java.util.Date;
+#end
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import ${generator.entityPackageName}.entity#if(${generator.subModule}).${generator.subModuleName}#end.${table.tableModuleName}Entity;
+
+/**
+ * ${table.tableComment}mapper
+ *
+ * @author ${generator.author}
+ * @date ${date}
+ */
+@Repository
+public interface ${table.tableModuleName}Mapper {
+    /**
+     * ${table.tableComment}查询数量
+     *
+     * @param map 具体的参数map
+     * @return Integer
+     */
+    Integer query${table.tableModuleName}Count(Map<String, Object> map);
+
+    /**
+     * ${table.tableComment}查询集合
+     *
+     * @param map 具体的参数map
+     * @return List
+     */
+    List<${table.tableModuleName}Entity> query${table.tableModuleName}List(Map<String, Object> map);
+
+    /**
+     * 根据主键查询${table.tableComment}信息
+     *
+     * @param ${table.priColumn.propertyName} 主键
+     * @return int
+     */
+    ${table.tableModuleName}Entity get${table.tableModuleName}ById(@Param("${table.priColumn.propertyName}") ${table.priColumn.propertyType} ${table.priColumn.propertyName});
+
+    /**
+     * ${table.tableComment}新增操作
+     *
+     * @param ${table.tableModuleName2}Entity ${table.tableComment}数据
+     * @return int
+     */
+    int insert${table.tableModuleName}(${table.tableModuleName}Entity ${table.tableModuleName2}Entity);
+
+    /**
+     * ${table.tableComment}批量新增操作
+     *
+     * @param ${table.tableModuleName2}Entitys ${table.tableComment}数据集合
+     * @return int
+     */
+    int batchInsert${table.tableModuleName}(@Param("${table.tableModuleName2}Entitys") List<${table.tableModuleName}Entity> ${table.tableModuleName2}Entitys);
+
+    /**
+     * ${table.tableComment}更新操作
+     *
+     * @param ${table.tableModuleName2}Entity ${table.tableComment}数据
+     * @return int
+     */
+    int update${table.tableModuleName}(${table.tableModuleName}Entity ${table.tableModuleName2}Entity);
+
+#if(${table.deleteColumn})
+    /**
+     * ${table.tableComment}逻辑删除操作
+     *
+     * @param ${table.priColumn.propertyName}s 主键set集合
+  #if(${table.updateUserColumn})
+     * @param ${table.updateUserColumn.propertyName} ${table.updateUserColumn.columnComment}
+  #end
+  #if(${table.updateTimeColumn})
+     * @param ${table.updateTimeColumn.propertyName} ${table.updateTimeColumn.columnComment}
+  #end
+     * @return int
+     */
+    int delete${table.tableModuleName}(@Param("${table.priColumn.propertyName}s") Set<${table.priColumn.propertyType}> ${table.priColumn.propertyName}s#if(${table.updateUserColumn}), @Param("${table.updateUserColumn.propertyName}")${table.updateUserColumn.propertyType} ${table.updateUserColumn.propertyName}#end#if(${table.updateTimeColumn}), @Param("${table.updateTimeColumn.propertyName}")${table.updateTimeColumn.propertyType} ${table.updateTimeColumn.propertyName}#end);
+#else
+    /**
+     * ${table.tableComment}物理删除操作
+     *
+     * @param ${table.priColumn.propertyName}s 主键set集合
+     * @return int
+     */
+    int delete${table.tableModuleName}(@Param("${table.priColumn.propertyName}s") Set<${table.priColumn.propertyType}> ${table.priColumn.propertyName}s);
+#end
+}

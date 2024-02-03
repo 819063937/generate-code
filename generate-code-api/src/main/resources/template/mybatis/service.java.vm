@@ -1,0 +1,91 @@
+package ${generator.packageName}.service#if(${generator.subModule}).${generator.subModuleName}#end;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import ${generator.entityPackageName}.entity#if(${generator.subModule}).${generator.subModuleName}#end.${table.tableModuleName}Entity;
+
+/**
+ * ${table.tableComment}接口
+ *
+ * @author ${generator.author}
+ * @date ${date}
+ */
+public interface ${table.tableModuleName}Service {
+    /**
+     * ${table.tableComment}查询数量
+     *
+     * @param map 具体的参数map
+     * @return Integer
+     */
+    Integer query${table.tableModuleName}Count(Map<String, Object> map);
+
+    /**
+     * ${table.tableComment}查询集合
+     *
+     * @param map 具体的参数map
+     * @return List
+     */
+    List<${table.tableModuleName}Entity> query${table.tableModuleName}List(Map<String, Object> map);
+
+    /**
+     * 根据主键查询${table.tableComment}信息
+     *
+     * @param ${table.priColumn.propertyName} 主键
+     * @return int
+     */
+    ${table.tableModuleName}Entity get${table.tableModuleName}ById(${table.priColumn.propertyType} ${table.priColumn.propertyName});
+
+    /**
+     * ${table.tableComment}新增操作
+     *
+     * @param ${table.tableModuleName2}Entity ${table.tableComment}数据
+     * @return int
+     */
+    int insert${table.tableModuleName}(${table.tableModuleName}Entity ${table.tableModuleName2}Entity);
+
+    /**
+     * ${table.tableComment}批量新增操作
+     *
+     * @param ${table.tableModuleName2}Entitys ${table.tableComment}数据集合
+     * @return int
+     */
+    int batchInsert${table.tableModuleName}(List<${table.tableModuleName}Entity> ${table.tableModuleName2}Entitys);
+
+    /**
+     * ${table.tableComment}更新操作
+     *
+     * @param ${table.tableModuleName2}Entity ${table.tableComment}数据
+     * @return int
+     */
+    int update${table.tableModuleName}(${table.tableModuleName}Entity ${table.tableModuleName2}Entity);
+
+    /**
+     * ${table.tableComment}#if(${table.deleteColumn})逻辑#else 物理#end 删除操作
+     *
+     * @param ${table.priColumn.propertyName}s 主键set集合
+     * @return int
+     */
+    int delete${table.tableModuleName}(Set<${table.priColumn.propertyType}> ${table.priColumn.propertyName}s);
+
+    /**
+    * ${table.tableComment}导入操作
+    *
+    * @param file
+    * @return String
+    */
+    String importExcel(MultipartFile file);
+
+    /**
+    * ${table.tableComment}导出操作
+    *
+    * @param response response
+    * @param map map
+    */
+    void exportExcel(HttpServletResponse response, Map<String, Object> map);
+}

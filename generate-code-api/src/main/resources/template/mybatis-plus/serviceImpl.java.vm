@@ -1,0 +1,76 @@
+package ${generator.packageName}.service#if(${generator.subModule}).${generator.subModuleName}#end.impl;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import ${generator.entityPackageName}.entity#if(${generator.subModule}).${generator.subModuleName}#end.${table.tableModuleName}Entity;
+import ${generator.packageName}.mapper#if(${generator.subModule}).${generator.subModuleName}#end.${table.tableModuleName}Mapper;
+import ${generator.packageName}.service#if(${generator.subModule}).${generator.subModuleName}#end.${table.tableModuleName}Service;
+
+import lombok.extern.slf4j.Slf4j;
+/**
+ * ${table.tableComment}接口实现
+ *
+ * @author ${generator.author}
+ * @date ${date}
+ */
+@Slf4j
+@Service
+public class ${table.tableModuleName}ServiceImpl extends ServiceImpl<${table.tableModuleName}Mapper, ${table.tableModuleName}Entity> implements ${table.tableModuleName}Service {
+    @Autowired
+    private ${table.tableModuleName}Mapper ${table.tableModuleName2}Mapper;
+
+    @Override
+    public Integer query${table.tableModuleName}Count(Map<String, Object> map) {
+        return ${table.tableModuleName2}Mapper.query${table.tableModuleName}Count(map);
+    }
+
+    @Override
+    public List<${table.tableModuleName}Entity> query${table.tableModuleName}List(Map<String, Object> map) {
+        return ${table.tableModuleName2}Mapper.query${table.tableModuleName}List(map);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean save(${table.tableModuleName}Entity ${table.tableModuleName2}Entity) {
+        return super.save(${table.tableModuleName2}Entity);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean saveBatch(Collection<${table.tableModuleName}Entity> ${table.tableModuleName2}Entitys) {
+        return super.saveBatch(${table.tableModuleName2}Entitys);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateById(${table.tableModuleName}Entity ${table.tableModuleName2}Entity) {
+        return super.updateById(${table.tableModuleName2}Entity);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean removeByIds(Collection<?> ${table.priColumn.propertyName}s) {
+        return super.removeByIds(${table.priColumn.propertyName}s);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String importExcel(MultipartFile file) {
+        return null;
+    }
+
+    @Override
+    public void exportExcel(HttpServletResponse response, Map<String, Object> map) {
+
+    }
+}

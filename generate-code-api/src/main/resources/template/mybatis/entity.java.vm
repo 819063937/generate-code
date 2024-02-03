@@ -1,0 +1,49 @@
+package ${generator.entityPackageName}.entity#if(${generator.subModule}).${generator.subModuleName}#end;
+
+#if(${table.bigDecimalFlg})
+import java.math.BigDecimal;
+#end
+#if(${table.dateFlg})
+import java.util.Date;
+#end
+#if(${table.dateFlg})
+    
+import com.fasterxml.jackson.annotation.JsonFormat;
+#end
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+#if(${generator.callSuper})
+import lombok.EqualsAndHashCode;
+#end
+import lombok.NoArgsConstructor;
+
+/**
+ * ${table.tableComment}实体类
+ *
+ * @author ${generator.author}
+ * @date ${date}
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+#if(${generator.callSuper})
+@EqualsAndHashCode(callSuper = true)
+#end
+public class ${table.tableModuleName}Entity {
+#foreach($field in ${fields})
+#if(!${field.baseField})
+    /**
+    * ${field.columnComment}
+    */
+    #if(${field.dataType} == 'datetime' or ${field.dataType} == 'timestamp')
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    #end
+    #if(${field.dataType} == 'date')
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    #end
+    private ${field.propertyType} ${field.propertyName};
+
+#end
+#end
+}

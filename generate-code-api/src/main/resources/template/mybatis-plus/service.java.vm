@@ -1,0 +1,52 @@
+package ${generator.packageName}.service#if(${generator.subModule}).${generator.subModuleName}#end;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import ${generator.entityPackageName}.entity#if(${generator.subModule}).${generator.subModuleName}#end.${table.tableModuleName}Entity;
+
+/**
+ * ${table.tableComment}接口
+ *
+ * @author ${generator.author}
+ * @date ${date}
+ */
+public interface ${table.tableModuleName}Service extends IService<${table.tableModuleName}Entity> {
+    /**
+     * ${table.tableComment}查询数量
+     *
+     * @param map 具体的参数map
+     * @return Integer
+     */
+    Integer query${table.tableModuleName}Count(Map<String, Object> map);
+
+    /**
+     * ${table.tableComment}查询集合
+     *
+     * @param map 具体的参数map
+     * @return List
+     */
+    List<${table.tableModuleName}Entity> query${table.tableModuleName}List(Map<String, Object> map);
+
+    /**
+    * ${table.tableComment}导入操作
+    *
+    * @param file
+    * @return String
+    */
+    String importExcel(MultipartFile file);
+
+    /**
+    * ${table.tableComment}导出操作
+    *
+    * @param response response
+    * @param map map
+    */
+    void exportExcel(HttpServletResponse response, Map<String, Object> map);
+}
